@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "893751877000",
+    "project_id": "gymtracker-b2806",
+    "storage_bucket": "gymtracker-b2806.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893751877000:android:955ec280861fdeaaa1ee3d",
+        "android_client_info": {
+          "package_name": "com.example.ponsgymetre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893751877000-ekv4mlsft51lhlog060brho4pqq9e2g1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB70CCQWuWzjDMZ8-ksf3kXqt6UuS88qWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893751877000-ekv4mlsft51lhlog060brho4pqq9e2g1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
