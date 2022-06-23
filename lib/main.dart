@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ponsgymetre/pages/create_routine.dart';
+import 'package:ponsgymetre/pages/home.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -16,144 +18,44 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: "/",
+      routes: {
+        '/': (context) => const AppContainer(child: HomePage()),
+        '/create_routine': (context) => AppContainer(child: CreateRoutine()),
+        '/list': (context) => const AppContainer(child: HomePage()),
+        '/history': (context) => const AppContainer(child: HomePage()),
+        '/statistics': (context) => const AppContainer(child: HomePage()),
+        '/start': (context) => const AppContainer(child: HomePage()),
+      },
+      // home: const HomePage(),
       title: 'El PonsGymetre',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
-      home: const HomePage(title: 'PonsGymetre'),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+class AppContainer extends StatelessWidget {
+  const AppContainer({Key? key, this.child}) : super(key: key);
 
-  final String title;
+  final Widget? child;
 
-  @override
-  State<HomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.indigo[900],
-      body: Center(
-          child: GridView.count(
-        primary: true,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        crossAxisCount: 2,
-        children: [
-          Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            color: Colors.indigo[100],
-            child: InkWell(
-              onTap: () => {},
-              splashColor: Colors.blue.withAlpha(30),
-              child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.fitness_center, size: 50),
-                      Text(
-                        'New Routine',
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ]),
-              ),
-            ),
-          ),
-          Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            color: Colors.indigo[100],
-            child: InkWell(
-              onTap: () => {},
-              splashColor: Colors.blue.withAlpha(30),
-              child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.list, size: 50),
-                      Text(
-                        'List Routines',
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ]),
-              ),
-            ),
-          ),
-          Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            color: Colors.indigo[100],
-            child: InkWell(
-              onTap: () => {},
-              splashColor: Colors.blue.withAlpha(30),
-              child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.history, size: 50),
-                      Text(
-                        'History',
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ]),
-              ),
-            ),
-          ),
-          Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            color: Colors.indigo[100],
-            child: InkWell(
-              onTap: () => {},
-              splashColor: Colors.blue.withAlpha(30),
-              child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.auto_graph, size: 50),
-                      Text(
-                        'Statistics',
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ]),
-              ),
-            ),
-          ),
-          Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            color: Colors.indigo[100],
-            child: InkWell(
-              onTap: () => {},
-              splashColor: Colors.blue.withAlpha(30),
-              child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.flash_on, size: 50),
-                      Text(
-                        'Start Workout',
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ]),
-              ),
-            ),
-          ),
-        ],
-      )),
-    );
+        body: Center(
+            child: Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+            Colors.black,
+            Colors.black,
+            Colors.indigo.shade900,
+          ])),
+      child: child,
+    )));
   }
 }
