@@ -12,6 +12,11 @@ class Routine {
   void addExercise(ExerciseDef exercise) {
     exercises.add(exercise);
   }
+
+  @override
+  String toString() {
+    return "Routine { name: \"$name\", exercises: $exercises }";
+  }
 }
 
 /// Model for the exercise definitions
@@ -19,14 +24,19 @@ class ExerciseDef {
   ExerciseDef({required this.name, required this.muscularGroups});
 
   String name;
-  List<MuscularGroup> muscularGroups;
+  Set<MuscularGroup> muscularGroups;
 
-  void setMuscularGroups(List<MuscularGroup> muscularGroups) {
+  void setMuscularGroups(Set<MuscularGroup> muscularGroups) {
     this.muscularGroups = muscularGroups;
   }
 
   void setName(String name) {
     this.name = name;
+  }
+
+  @override
+  String toString() {
+    return "ExerciseDef { name: \"$name\", muscularGroups: $muscularGroups }";
   }
 }
 

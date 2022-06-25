@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ponsgymetre/main.dart';
 
 const List<dynamic> cards = [
   {
@@ -35,26 +36,25 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
         primary: true,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
+        crossAxisSpacing: 0,
+        mainAxisSpacing: 0,
         crossAxisCount: 2,
         children: cards
             .map(
               (card) => Card(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                color: Colors.indigo.shade900,
+                    borderRadius: BorderRadius.circular(5)),
+                color: AppColors.cardBackground,
                 child: InkWell(
                   onTap: () => Navigator.pushNamed(context, card["route"]),
-                  splashColor: Colors.blue.withAlpha(30),
+                  splashColor: AppColors.primary,
                   child: Center(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(card["icon"],
-                              color: Colors.grey.shade200, size: 50),
+                          Icon(card["icon"], color: AppColors.text, size: 50),
                           Text(
                             card["title"],
                             style: const TextStyle(

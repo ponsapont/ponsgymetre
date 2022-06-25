@@ -4,6 +4,16 @@ import 'package:ponsgymetre/pages/create_routine.dart';
 import 'package:ponsgymetre/pages/home.dart';
 import 'firebase_options.dart';
 
+/// Colors to use in the application
+class AppColors {
+  static Color background = const Color(0x00121212);
+  static Color cardBackground = AppColors.background.withAlpha(200);
+  static Color primary = Colors.blue.shade400;
+  static Color primaryAccent = AppColors.primary.withAlpha(30);
+  static MaterialColor materialPrimary = Colors.blue;
+  static Color text = Colors.white;
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -30,7 +40,7 @@ class MyApp extends StatelessWidget {
       // home: const HomePage(),
       title: 'El PonsGymetre',
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        primarySwatch: AppColors.materialPrimary,
       ),
     );
   }
@@ -44,18 +54,8 @@ class AppContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            child: Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-            Colors.black,
-            Colors.black,
-            Colors.indigo.shade900,
-          ])),
-      child: child,
-    )));
+      backgroundColor: AppColors.background,
+      body: child,
+    );
   }
 }
