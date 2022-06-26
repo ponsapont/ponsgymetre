@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ponsgymetre/main.dart';
 import 'package:ponsgymetre/models.dart';
 
 class CreateRoutine extends StatefulWidget {
-  CreateRoutine({Key? key}) : super(key: key);
+  const CreateRoutine({Key? key}) : super(key: key);
 
   @override
   State<CreateRoutine> createState() => _MyCreateRoutineState();
@@ -11,6 +12,7 @@ class CreateRoutine extends StatefulWidget {
 
 class _MyCreateRoutineState extends State<CreateRoutine> {
   Routine routine = Routine(name: "");
+  bool loading = false;
 
   final listKey = GlobalKey<AnimatedListState>();
 
@@ -24,9 +26,13 @@ class _MyCreateRoutineState extends State<CreateRoutine> {
     setState(() => routine.exercises[exerciseIndex].name = exerciseName);
   }
 
-  void addMuscularGroup(MuscularGroup muscularGroup, int exerciseIndex) {
-    setState(() =>
-        routine.exercises[exerciseIndex].muscularGroups.add(muscularGroup));
+  void setMuscularGroup(MuscularGroup muscularGroup, int exerciseIndex) {
+    setState(
+        () => routine.exercises[exerciseIndex].setMuscularGroup(muscularGroup));
+  }
+
+  void setLoading(bool loading) {
+    setState(() => this.loading = loading);
   }
 
   late Animation<double> animation;
@@ -64,20 +70,28 @@ class _MyCreateRoutineState extends State<CreateRoutine> {
                             initialValue: exercise.name,
                             onChanged: (name) => setExerciseName(name, index)),
                       ])),
+                  const SizedBox(width: 20),
                   Expanded(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                        TextFormField(
-                            decoration: InputDecoration(
-                                hintText: "Muscular Group",
-                                hintStyle: TextStyle(
-                                    color: AppColors.primary, fontSize: 16.0)),
-                            style: TextStyle(
-                                color: AppColors.text, fontSize: 20.0),
-                            onChanged: (name) => setExerciseName(name, index)),
-                      ])),
+                        DropdownButton<MuscularGroup>(
+                            dropdownColor: AppColors.background,
+                            value: exercise.muscularGroup,
+                            items: MuscularGroup.values.map((value) {
+                              return DropdownMenuItem<MuscularGroup>(
+                                value: value,
+                                child: Text(muscularGroupString(value)),
+                              );
+                            }).toList(),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20.0),
+                            onChanged: (MuscularGroup? muscularGroup) =>
+                                setMuscularGroup(
+                                    muscularGroup ?? MuscularGroup.chest,
+                                    index))
+                      ]))
                 ],
               ),
             ),
@@ -88,13 +102,14 @@ class _MyCreateRoutineState extends State<CreateRoutine> {
             child: SizedBox(
                 height: 30,
                 child: FloatingActionButton(
+                    heroTag: null,
                     onPressed: () {
                       setState(() => routine.exercises.removeAt(index));
                       listKey.currentState?.removeItem(index,
                           (context, animation) {
                         return SizeTransition(
                             sizeFactor: animation,
-                            child: Stack(children: [Card()]));
+                            child: Stack(children: const [Card()]));
                       });
                     },
                     backgroundColor: AppColors.primaryAccent,
@@ -105,6 +120,13 @@ class _MyCreateRoutineState extends State<CreateRoutine> {
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference routines =
+        FirebaseFirestore.instance.collection('routines');
+
+    if (loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return Stack(fit: StackFit.expand, children: [
       Column(children: [
         // Routine name
@@ -146,9 +168,10 @@ class _MyCreateRoutineState extends State<CreateRoutine> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: FloatingActionButton(
+                  heroTag: null,
                   onPressed: () {
                     ExerciseDef exercise = ExerciseDef(
-                        name: "", muscularGroups: {MuscularGroup.chest});
+                        name: "", muscularGroup: MuscularGroup.chest);
                     int lastIndex = routine.exercises.length;
                     setState(
                         () => routine.exercises.insert(lastIndex, exercise));
@@ -158,6 +181,29 @@ class _MyCreateRoutineState extends State<CreateRoutine> {
                   child: const Icon(Icons.add),
                 ),
               ))),
+      Positioned(
+          bottom: 95,
+          right: 0,
+          child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
+              child: Align(
+                  alignment: Alignment.centerRight,
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () {
+                      // Go back to home
+                      routines.add(routine.toJson()).then((value) {
+                        setLoading(false);
+                        Navigator.pop(context);
+                      });
+                      setLoading(true);
+                    },
+                    backgroundColor: AppColors.secondary,
+                    child: const Icon(
+                      Icons.check,
+                    ),
+                  )))),
     ]);
   }
 }

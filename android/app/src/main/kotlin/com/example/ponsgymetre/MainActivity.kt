@@ -1,4 +1,4 @@
-package com.example.ponsgymetre
+package org.ponsimetre.ponsgymetre
 
 import io.flutter.embedding.android.FlutterActivity
 

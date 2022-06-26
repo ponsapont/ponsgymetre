@@ -6,9 +6,10 @@ import 'firebase_options.dart';
 
 /// Colors to use in the application
 class AppColors {
-  static Color background = const Color(0x00121212);
-  static Color cardBackground = AppColors.background.withAlpha(200);
+  static Color background = const Color.fromARGB(255, 18, 18, 18);
+  static Color cardBackground = const Color.fromARGB(255, 45, 45, 45);
   static Color primary = Colors.blue.shade400;
+  static Color secondary = Colors.green.shade400;
   static Color primaryAccent = AppColors.primary.withAlpha(30);
   static MaterialColor materialPrimary = Colors.blue;
   static Color text = Colors.white;
